@@ -59,7 +59,7 @@ You're ready to go !
 First, clone the GitLab repository :
 
 ````
-git clone https://cicd-gitlab.rp-ocn.apps.ocn.infra.ftgroup/engine-documentation/docx2md.git
+git clone https://github.com/gitgud443/Docx2Md
 ````
 
 Then, install the dependencies and the tools required if you have root privileges :
