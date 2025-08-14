@@ -1,0 +1,16 @@
+beautifulsoup4==4.11.2
+# For the tables processing
+lxml==4.9.1
+# For the docx to markdown conversion
+mammoth==1.4.2
+python-docx==0.8.11
+docx2python==1.17.0
+docx2txt==0.8
+# For the manipulation of ZIP and XML files
+# (included in the standard library, no need for specification)
+# For the PATH management
+pathlib==1.0.1
+# For the handling of subprocess (included in the standard library)
+# For the handling of logs (included in the standard library)
+# For the conversion of vector images and gif
+# (no specific python package, depends on external tools like ImageMagick and unoconv)
