@@ -27,7 +27,7 @@ The solution consists in a bash script that :
 
 1. First, clone the source code from this Gitlab repository :
 ````
-git clone https://cicd-gitlab.rp-ocn.apps.ocn.infra.ftgroup/engine-documentation/docx2md.git
+git clone https://github.com/gitgud443/Docx2Md
 ````
 
 2. Then, you can build this image using : 
@@ -52,43 +52,12 @@ docker run --rm -it \
 
 The files should appear in your VM's directories.
 
-### ACCESS THE DOCX2MD DOCKER CONTAINER
-
-Currently, this tool is being used inside a Debian Docker Image (for Orange OINIS)
-You can access it with SSH : 
-
-````
-ssh debian@172.17.0.7
-````
-
-You can ask the person monitoring the Trusted Zone for an login, and the container's password.
-Once inside, you can clone the GitLab repository :
-
-````
-git clone https://cicd-gitlab.rp-ocn.apps.ocn.infra.ftgroup/engine-documentation/docx2md.git
-````
-
-then, install the needed requirements :
-
-````
-cd docx2md
-pip3 install -r requirements.txt
-````
-
-The external tools and latest python3 version are already in the container.
-Then, you can make the source directory (inside the workdir) :
-````
-mkdir source
-````
-It's the one where you'll put your docx files before running the bash script.
-You're ready to go !
-
 ### MANUAL INSTALLATION (NEED ROOT PRIVILEGES)
 
 First, clone the GitLab repository :
 
 ````
-git clone https://cicd-gitlab.rp-ocn.apps.ocn.infra.ftgroup/engine-documentation/docx2md.git
+git clone https://github.com/gitgud443/Docx2Md
 ````
 
 Then, install the dependencies and the tools required if you have root privileges :
