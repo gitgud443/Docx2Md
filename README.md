@@ -23,6 +23,35 @@ The solution consists in a bash script that :
 
 # ACCESS DOCX2MD / INSTALLATION PROCESS
 
+### USE THE TOOL'S DOCKER IMAGE
+
+1. First, clone the source code from this Gitlab repository :
+````
+git clone https://cicd-gitlab.rp-ocn.apps.ocn.infra.ftgroup/engine-documentation/docx2md.git
+````
+
+2. Then, you can build this image using : 
+````
+./build_docker_image.sh
+````
+
+3. If it worked correctly, you can now run the container like this : 
+* the -v lines bind-mount the tool's relevant folders to your VM
+````
+docker run --rm -it \
+  -v /home/arobin/tech-doc-conversion/output:/opt/tech-doc-conversion/output \
+  -v /home/arobin/tech-doc-conversion/images:/opt/tech-doc-conversion/images \
+  -v /home/arobin/tech-doc-conversion/source_marked:/opt/tech-doc-conversion/source_marked \
+  tech-doc-image-converter:latest /bin/bash
+````
+
+4. Then, you can simply run the conversion process inside the container with the bash script :
+````
+./process_documents.sh
+````
+
+The files should appear in your VM's directories.
+
 ### ACCESS THE DOCX2MD DOCKER CONTAINER
 
 Currently, this tool is being used inside a Debian Docker Image (for Orange OINIS)
@@ -59,7 +88,7 @@ You're ready to go !
 First, clone the GitLab repository :
 
 ````
-git clone https://github.com/gitgud443/Docx2Md
+git clone https://cicd-gitlab.rp-ocn.apps.ocn.infra.ftgroup/engine-documentation/docx2md.git
 ````
 
 Then, install the dependencies and the tools required if you have root privileges :

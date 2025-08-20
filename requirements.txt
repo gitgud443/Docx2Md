@@ -1,7 +1,5 @@
 beautifulsoup4==4.11.2
 # For the tables processing
-lxml==4.9.1
-# For the docx to markdown conversion
 mammoth==1.4.2
 python-docx==0.8.11
 docx2python==1.17.0

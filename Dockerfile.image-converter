@@ -1,29 +1,58 @@
-FROM debian:bullseye-slim
+# Use Debian base image
+FROM debian
 
-# Install dependencies
+# Build arguments for proxy and Nexus credentials
+ARG http_proxy
+ARG https_proxy
+ARG no_proxy
+ARG NEXUS_LOGIN
+ARG NEXUS_PASSWORD
+
+# Set environment variables inside the container
+ENV http_proxy=${http_proxy}
+ENV https_proxy=${https_proxy}
+ENV no_proxy=${no_proxy}
+
+# Configure apt to use the proxy explicitly
+RUN echo 'Acquire::http::Proxy "http://10.253.52.118/";' > /etc/apt/apt.conf.d/01proxy && \
+    echo 'Acquire::https::Proxy "http://10.253.52.118/";' >> /etc/apt/apt.conf.d/01proxy
+
+# Install system dependencies including build tools and jq
 RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
+    python3 python3-pip python3-setuptools python3-venv \
+    python3-keyring python3-argon2 python3-jaraco.classes \
+    build-essential python3-dev \
+    jq \
     pandoc \
     imagemagick \
-    unoconv \
     libreoffice \
     libreoffice-common \
+    unoconv \
     inkscape \
-    pdf2svg \
-    librsvg2-bin \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Set up working directory
-WORKDIR /app
+# Create virtual environment
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
-# Copy the scripts and files
-COPY . /app/
+RUN python3 --version
 
-# Make the scripts executable
-RUN chmod +x /app/process_documents.sh
-RUN chmod +x /app/scripts/*.py
+# Copy your downloaded wheels folder into the image
+COPY wheels/ /wheels/
 
-# Default command
-ENTRYPOINT ["/app/process_documents.sh"]
+# Copy your application files
+COPY . /opt/tech-doc-conversion
+WORKDIR /opt/tech-doc-conversion
 
+# Install lxml dependancies
+RUN apt-get update && apt-get install -y \
+    libxml2-dev libxslt-dev python3-dev build-essential
+
+# Install remaining Python dependencies offline from wheels
+RUN pip install --no-index --find-links=/wheels -r requirements.txt
+
+# Make the bash script executable
+RUN chmod +x ./process_documents.sh
+
+# Default command to run the tool
+CMD ["./process_documents.sh"]
